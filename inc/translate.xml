@@ -73,8 +73,8 @@
         <edtPrefix>edited</edtPrefix>
         <btnExit>Close</btnExit>
         <btnExitTool>Exiting application</btnExitTool>
-        <lblCC>&lt;a href="http://creativecommons.org/licenses/by-sa/4.0/deed.cs"&gt;&lt;img src=":icons/inc/by-sa.png" width="91" height="32" /&gt;&lt;/a&gt;</lblCC>
-        <lblCCTool>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style="font-size:10pt;"&gt;Toto dílo podléhá licenci &lt;span style="font-weight:bold;"&gt;Creative Commons Uveďte původ-Zachovejte licenci 4.0 Mezinárodní&lt;/span&gt;. Pro zobrazení licenčních podmínek navštivte http://creativecommons.org/licenses/by-sa/4.0/deed.cs .&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</lblCCTool>
+        <lblCC>&lt;a href="http://creativecommons.org/licenses/by-sa/4.0/deed.en"&gt;&lt;img src=":icons/inc/by-sa.png" width="91" height="32" /&gt;&lt;/a&gt;</lblCC>
+        <lblCCTool>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style="font-size:10pt;"&gt;This work is licensed under a &lt;span style="font-weight:bold;"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/span&gt;. To view the license conditions visit http://creativecommons.org/licenses/by-sa/4.0/deed.en .&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</lblCCTool>
         <lblPy>&lt;a href="http://www.python.org"&gt;&lt;img src=":icons/inc/python.png" width="78" height="31" /&gt;&lt;/a&gt;</lblPy>
         <lblPyTool>The Python Programming Language</lblPyTool>
         <grpWater> Add watermark </grpWater>

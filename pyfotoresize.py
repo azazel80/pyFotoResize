@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
+Application for mass resizing photos with the possibility of adding watermark.
 Aplikace na hromadnou změnu velikosti fotek s možností přidání vodoznaku.
 '''
 
