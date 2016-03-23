@@ -43,6 +43,11 @@ class mainUI(QtGui.QWidget):
         self.lblPy.setOpenExternalLinks(True)
         self.lblPy.setObjectName("lblPy")
 
+        self.lblGit = QtGui.QLabel(self.centralWidget)
+        self.lblGit.setGeometry(QtCore.QRect(221, 478, 32, 32))
+        self.lblGit.setOpenExternalLinks(True)
+        self.lblGit.setObjectName("lblGit")
+
         self.tabWidget = QtGui.QTabWidget(self.centralWidget)
         self.tabWidget.setGeometry(QtCore.QRect(5, 5, 481, 461))
         self.tabWidget.setMouseTracking(True)
@@ -370,6 +375,8 @@ class mainUI(QtGui.QWidget):
         self.lblCC.setToolTip(self.transGUI('lblCCTool'))
         self.lblPy.setText(self.transGUI('lblPy'))
         self.lblPy.setToolTip(self.transGUI('lblPyTool'))
+        self.lblGit.setText(self.transGUI('lblGit'))
+        self.lblGit.setToolTip(self.transGUI('lblGitTool'))
         self.grpWater.setTitle(self.transGUI('grpWater'))
         self.lblWater.setText(self.transGUI('lblWater'))
         self.edtWater.setText(self.transGUI('edtWater'))

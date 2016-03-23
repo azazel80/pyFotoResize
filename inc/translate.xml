@@ -23,6 +23,8 @@
         <lblCCTool>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style="font-size:10pt;"&gt;Toto dílo podléhá licenci &lt;span style="font-weight:bold;"&gt;Creative Commons Uveďte původ-Zachovejte licenci 4.0 Mezinárodní&lt;/span&gt;. Pro zobrazení licenčních podmínek navštivte http://creativecommons.org/licenses/by-sa/4.0/deed.cs .&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</lblCCTool>
         <lblPy>&lt;a href="http://www.python.org"&gt;&lt;img src=":icons/inc/python.png" width="78" height="31" /&gt;&lt;/a&gt;</lblPy>
         <lblPyTool>The Python Programming Language</lblPyTool>
+        <lblGit>&lt;a href="https://github.com/azazel80/pyFotoResize"&gt;&lt;img src=":icons/inc/GitHub.png" width="32" height="32" /&gt;&lt;/a&gt;</lblGit>
+        <lblGitTool>pyFotoResize na GitHub.com</lblGitTool>
         <grpWater> Přidat vodoznak </grpWater>
         <lblWater>Text vodoznaku: </lblWater>
         <edtWater>Vodoznak</edtWater>
@@ -77,6 +79,8 @@
         <lblCCTool>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style="font-size:10pt;"&gt;This work is licensed under a &lt;span style="font-weight:bold;"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/span&gt;. To view the license conditions visit http://creativecommons.org/licenses/by-sa/4.0/deed.en .&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</lblCCTool>
         <lblPy>&lt;a href="http://www.python.org"&gt;&lt;img src=":icons/inc/python.png" width="78" height="31" /&gt;&lt;/a&gt;</lblPy>
         <lblPyTool>The Python Programming Language</lblPyTool>
+        <lblGit>&lt;a href="https://github.com/azazel80/pyFotoResize"&gt;&lt;img src=":icons/inc/GitHub.png" width="32" height="32" /&gt;&lt;/a&gt;</lblGit>
+        <lblGitTool>pyFotoResize on GitHub.com</lblGitTool>
         <grpWater> Add watermark </grpWater>
         <lblWater>Text watermark: </lblWater>
         <edtWater>Watermark</edtWater>
