@@ -1,0 +1,108 @@
+<translations active="cs">
+    <lang id="cs" pic="cs.png">
+        <tabResize>Úprava fotek</tabResize>
+        <tabCopy>Přenos souborů</tabCopy>
+        <tabSetting>Nastavení</tabSetting>
+        <grpStart> Proces úpravy fotek</grpStart>
+        <btnStart>Start</btnStart>
+        <btnStartTool>Spustí proces úpravy fotek</btnStartTool>
+        <grpSlozka> Složka s fotkami </grpSlozka>
+        <lblSlozka>Vybrat složku:</lblSlozka>
+        <lblPocet>Fotek ve složce: </lblPocet>
+        <btnSlozka>Procházet...</btnSlozka>
+        <btnSlozkaTool>Otevře se dialog pro výběr složky</btnSlozkaTool>
+        <grpUprava> Předvolby úpravy fotek</grpUprava>
+        <lblPozn>* Šířka fotky se automaticky přizpůsobí.</lblPozn>
+        <lblVyska>Výška fotky (px):</lblVyska>
+        <lblKvalita>Kvalita fotky (%):</lblKvalita>
+        <lblPrefix>Prefix uložení:</lblPrefix>
+        <edtPrefix>edited</edtPrefix>
+        <btnExit>Zavřít</btnExit>
+        <btnExitTool>Ukončí aplikaci</btnExitTool>
+        <lblCC>&lt;a href="http://creativecommons.org/licenses/by-sa/4.0/deed.cs"&gt;&lt;img src=":icons/inc/by-sa.png" width="91" height="32" /&gt;&lt;/a&gt;</lblCC>
+        <lblCCTool>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style="font-size:10pt;"&gt;Toto dílo podléhá licenci &lt;span style="font-weight:bold;"&gt;Creative Commons Uveďte původ-Zachovejte licenci 4.0 Mezinárodní&lt;/span&gt;. Pro zobrazení licenčních podmínek navštivte http://creativecommons.org/licenses/by-sa/4.0/deed.cs .&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</lblCCTool>
+        <lblPy>&lt;a href="http://www.python.org"&gt;&lt;img src=":icons/inc/python.png" width="78" height="31" /&gt;&lt;/a&gt;</lblPy>
+        <lblPyTool>The Python Programming Language</lblPyTool>
+        <grpWater> Přidat vodoznak </grpWater>
+        <lblWater>Text vodoznaku: </lblWater>
+        <edtWater>Vodoznak</edtWater>
+        <grpZdroj> Zdrojová složka</grpZdroj>
+        <lblZdroj>Vybrat složku:</lblZdroj>
+        <btnZdroj>Procházet...</btnZdroj>
+        <btnZdrojTool>Otevře se dialog pro výběr složky</btnZdrojTool>
+        <grpCil> Cílová složka </grpCil>
+        <lblCil>Vybrat složku:</lblCil>
+        <btnCil>Procházet...</btnCil>
+        <btnCilTool>Otevře se dialog pro výběr složky</btnCilTool>
+        <grpPrenos> Zahájit přenos </grpPrenos>
+        <btnPrenos>Start</btnPrenos>
+        <btnPrenosTool>Spustí přenos souborů</btnPrenosTool>
+        <lblLog>Log:</lblLog>
+        <copyLog_1>Zahajuji kopírování</copyLog_1>
+        <copyLog_2>Kopírování dokončeno</copyLog_2>
+        <finishInfo_1>Úprava fotek byla úspěšně dokončena.</finishInfo_1>
+        <finishInfo_2>Kopírování fotek bylo úspěšně dokončeno.</finishInfo_2>
+        <finishInfo_3>Při kopírování došlo k chybám. Podrobnosti najdete v logu.</finishInfo_3>
+        <copyLog_0>Fotek ve zdrojové složce:</copyLog_0>
+        <finishTitle_1>Úspěch</finishTitle_1>
+        <finishTitle_2>Selhání</finishTitle_2>
+        <copyLog_3>CHYBA:</copyLog_3>
+        <copyLog_4>Zdroj:</copyLog_4>
+        <copyLog_5>Cíl:</copyLog_5>
+        <grpSetting> Jazyk GUI </grpSetting>
+    </lang>
+    <lang id="en" pic="en.png">
+        <default>0</default>
+        <pic>en.png</pic>
+        <tabResize>Photos editing</tabResize>
+        <tabCopy>Files transfer</tabCopy>
+        <tabSetting>Settings</tabSetting>
+        <grpStart> The process of editing photos</grpStart>
+        <btnStart>Start</btnStart>
+        <btnStartTool>Starts the process of editing photos</btnStartTool>
+        <grpSlozka> Folder with photos </grpSlozka>
+        <lblSlozka>Select folder:</lblSlozka>
+        <lblPocet>Photos in folder: </lblPocet>
+        <btnSlozka>Browse...</btnSlozka>
+        <btnSlozkaTool>Opens a dialog for the folder selection</btnSlozkaTool>
+        <grpUprava> Preferences of editing photos</grpUprava>
+        <lblPozn>* Width photos automatically adapts.</lblPozn>
+        <lblVyska>Height photos (px):</lblVyska>
+        <lblKvalita>Quality photos (%):</lblKvalita>
+        <lblPrefix>Prefix save photos:</lblPrefix>
+        <edtPrefix>edited</edtPrefix>
+        <btnExit>Close</btnExit>
+        <btnExitTool>Exiting application</btnExitTool>
+        <lblCC>&lt;a href="http://creativecommons.org/licenses/by-sa/4.0/deed.cs"&gt;&lt;img src=":icons/inc/by-sa.png" width="91" height="32" /&gt;&lt;/a&gt;</lblCC>
+        <lblCCTool>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style="font-size:10pt;"&gt;Toto dílo podléhá licenci &lt;span style="font-weight:bold;"&gt;Creative Commons Uveďte původ-Zachovejte licenci 4.0 Mezinárodní&lt;/span&gt;. Pro zobrazení licenčních podmínek navštivte http://creativecommons.org/licenses/by-sa/4.0/deed.cs .&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</lblCCTool>
+        <lblPy>&lt;a href="http://www.python.org"&gt;&lt;img src=":icons/inc/python.png" width="78" height="31" /&gt;&lt;/a&gt;</lblPy>
+        <lblPyTool>The Python Programming Language</lblPyTool>
+        <grpWater> Add watermark </grpWater>
+        <lblWater>Text watermark: </lblWater>
+        <edtWater>Watermark</edtWater>
+        <grpZdroj> Source folder</grpZdroj>
+        <lblZdroj>Select folder:</lblZdroj>
+        <btnZdroj>Browse...</btnZdroj>
+        <btnZdrojTool>Opens a dialog for the folder selection</btnZdrojTool>
+        <grpCil> Target folder </grpCil>
+        <lblCil>Select folder:</lblCil>
+        <btnCil>Browse...</btnCil>
+        <btnCilTool>Opens a dialog for the folder selection</btnCilTool>
+        <grpPrenos> Start transfer </grpPrenos>
+        <btnPrenos>Start</btnPrenos>
+        <btnPrenosTool>Starts transferring files</btnPrenosTool>
+        <lblLog>Log:</lblLog>
+        <copyLog_1>Copying started</copyLog_1>
+        <copyLog_2>Copying finished</copyLog_2>
+        <finishInfo_1>Editing of photos successfully finished.</finishInfo_1>
+        <finishInfo_2>Copying of photos successfully finished.</finishInfo_2>
+        <finishInfo_3>When copying errors occurred. For details, see the log.</finishInfo_3>
+        <copyLog_0>Photos in source folder:</copyLog_0>
+        <finishTitle_1>Success</finishTitle_1>
+        <finishTitle_2>Failure</finishTitle_2>
+        <copyLog_3>ERROR:</copyLog_3>
+        <copyLog_4>Source:</copyLog_4>
+        <copyLog_5>Target:</copyLog_5>
+        <grpSetting> Language GUI </grpSetting>
+    </lang>
+</translations>
