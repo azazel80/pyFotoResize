@@ -8,13 +8,14 @@ Aplikace na hromadnou změnu velikosti fotek s možností přidání vodoznaku.
 
 import sys, os, shutil, datetime
 from PySide import QtGui, QtCore
-from mainUI import mainUI
+from fotoResizeGUI import fotoResizeGUI
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
 
 __author__ = 'Miroslav Suchánek'
 
-class myUI(mainUI):
+class myUI(fotoResizeGUI):
 
+    # Funkce pro zvolení požadované složky
     def openDir(self, ident, text):
         dirname = QtGui.QFileDialog.getExistingDirectory(None, text, os.getenv('HOME'))
         if dirname:
@@ -77,93 +78,7 @@ class myUI(mainUI):
         rThread = ResizeTH()
         rThread.run()
 
-    def setItemToList(self, text, color):
-        item = QtGui.QListWidgetItem(text)
-        item.setForeground(QtGui.QBrush(color))
-        self.lstLog.insertItem(0, item)
-        self.lstLog.repaint()
-
-    # Funkce vyvolání info dialogu.
-    def getInfo(self, title, text):
-        ok = QtGui.QMessageBox.information(MainWindow, title, text)
-
-    # Funkce pro informaci o dokončení procesu úpravy/přenosu.
-    def threadFinished(self):
-        if self.setThread == 'resize':
-            if int(self.dbResize[2]) == self.progress.value():
-                if self.grpWater.isChecked():
-                    os.remove(self.tmp)
-                self.defaultStatus()
-                self.getInfo(self.transGUI('finishTitle_1'), self.transGUI('finishInfo_1'))
-        elif self.setThread == 'copy':
-            if int(self.dbSource[2]) == self.progPrenos.value():
-                self.setItemToList(self.transGUI('copyLog_2'), QtCore.Qt.black)
-                self.defaultStatus()
-                if self.error:
-                    self.getInfo(self.transGUI('finishTitle_2'), self.transGUI('finishInfo_3'))
-                else:
-                    self.getInfo(self.transGUI('finishTitle_1'), self.transGUI('finishInfo_2'))
-
-    # Funkce překreslení (aktualizace) progresbaru.
-    def progresUpdate(self):
-        if self.setThread == 'resize':
-            position = self.progress.value()
-            self.progress.setValue(position + 1)
-        elif self.setThread == 'copy':
-            position = self.progPrenos.value()
-            self.progPrenos.setValue(position + 1)
-
-    # Funkce nastavení výchozích hodnot aplikace po ukončení procesu úpravy.
-    def defaultStatus(self):
-        if self.setThread == 'resize':
-            self.grpSlozka.setEnabled(True)
-            self.edtSlozka.clear()
-            self.lblPocet.setText(self.transGUI('lblPocet'))
-            self.spnVyska.setValue(600)
-            self.spnKvalita.setValue(85)
-            self.edtPrefix.setText('edited')
-            self.grpUprava.setEnabled(False)
-            self.edtWater.setText(self.transGUI('edtWater'))
-            self.grpWater.setChecked(False)
-            self.grpWater.setEnabled(False)
-            self.progress.setValue(0)
-            self.grpStart.setEnabled(False)
-        elif self.setThread == 'copy':
-            self.grpZdroj.setEnabled(True)
-            self.edtZdroj.clear()
-            self.grpCil.setEnabled(False)
-            self.edtCil.clear()
-            self.grpPrenos.setEnabled(False)
-            self.progPrenos.setValue(0)
-
-    def addWatermark(self, in_file, out_file, text, quality, angle=23, opacity=0.25):
-
-        FONT = os.path.join(self.myPath, 'inc', 'DVS-Bold.ttf')
-
-        img = Image.open(in_file).convert('RGB')
-        watermark = Image.new('RGBA', img.size, (0,0,0,0))
-        size = 2
-        n_font = ImageFont.truetype(FONT, size)
-        n_width, n_height = n_font.getsize(text)
-
-        while n_width+n_height < watermark.size[0]:
-            size += 2
-            n_font = ImageFont.truetype(FONT, size)
-            n_width, n_height = n_font.getsize(text)
-
-        draw = ImageDraw.Draw(watermark, 'RGBA')
-        draw.text(((watermark.size[0] - n_width) / 2,
-              (watermark.size[1] - n_height) / 2),
-              text, font=n_font)
-
-        watermark = watermark.rotate(angle, Image.BICUBIC)
-        alpha = watermark.split()[3]
-        alpha = ImageEnhance.Brightness(alpha).enhance(opacity)
-        watermark.putalpha(alpha)
-        Image.composite(watermark, img, watermark).save(out_file, 'jpeg', quality=quality)
-
-        # Funkce stisknutí tlačítka /Start/ pro spuštění přenosu souborů.
-
+    # Funkce stisknutí tlačítka /Start/ pro spuštění kopírování souborů.
     def copyImg(self):
         self.progPrenos.setMaximum(int(self.dbSource[2]))
         self.btnPrenos.setEnabled(False)
@@ -190,6 +105,94 @@ class myUI(mainUI):
                     self.setItemToList('%i/%s..........%s --> %s' % (c, self.dbSource[2], cFile, newFilename), QtCore.Qt.darkGreen)
                     cThread = CopyTH(os.path.join(sourcePath, cFile), os.path.join(targetPath, newFilename), cFile)
                     cThread.run()
+
+    # Funkce vytvoření a přidání vodoznaku
+    def addWatermark(self, in_file, out_file, text, quality, angle=23, opacity=0.25):
+
+        FONT = os.path.join(self.myPath, 'inc', 'DVS-Bold.ttf')
+
+        img = Image.open(in_file).convert('RGB')
+        watermark = Image.new('RGBA', img.size, (0,0,0,0))
+        size = 2
+        n_font = ImageFont.truetype(FONT, size)
+        n_width, n_height = n_font.getsize(text)
+
+        while n_width+n_height < watermark.size[0]:
+            size += 2
+            n_font = ImageFont.truetype(FONT, size)
+            n_width, n_height = n_font.getsize(text)
+
+        draw = ImageDraw.Draw(watermark, 'RGBA')
+        draw.text(((watermark.size[0] - n_width) / 2,
+              (watermark.size[1] - n_height) / 2),
+              text, font=n_font)
+
+        watermark = watermark.rotate(angle, Image.BICUBIC)
+        alpha = watermark.split()[3]
+        alpha = ImageEnhance.Brightness(alpha).enhance(opacity)
+        watermark.putalpha(alpha)
+        Image.composite(watermark, img, watermark).save(out_file, 'jpeg', quality=quality)
+
+    # Funkce vytvoření a přidání informace do logu
+    def setItemToList(self, text, color):
+        item = QtGui.QListWidgetItem(text)
+        item.setForeground(QtGui.QBrush(color))
+        self.lstLog.insertItem(0, item)
+        self.lstLog.repaint()
+
+    # Funkce vyvolání info dialogu.
+    def getInfo(self, title, text):
+        ok = QtGui.QMessageBox.information(MainWindow, title, text)
+
+    # Funkce překreslení (aktualizace) progresbaru.
+    def progresUpdate(self):
+        if self.setThread == 'resize':
+            position = self.progress.value()
+            self.progress.setValue(position + 1)
+        elif self.setThread == 'copy':
+            position = self.progPrenos.value()
+            self.progPrenos.setValue(position + 1)
+
+    # Funkce pro informaci o dokončení procesu úpravy/přenosu.
+    def threadFinished(self):
+        if self.setThread == 'resize':
+            if int(self.dbResize[2]) == self.progress.value():
+                if self.grpWater.isChecked():
+                    os.remove(self.tmp)
+                self.defaultStatus()
+                self.getInfo(self.transGUI('finishTitle_1'), self.transGUI('finishInfo_1'))
+        elif self.setThread == 'copy':
+            if int(self.dbSource[2]) == self.progPrenos.value():
+                self.setItemToList(self.transGUI('copyLog_2'), QtCore.Qt.black)
+                self.defaultStatus()
+                if self.error:
+                    self.getInfo(self.transGUI('finishTitle_2'), self.transGUI('finishInfo_3'))
+                else:
+                    self.getInfo(self.transGUI('finishTitle_1'), self.transGUI('finishInfo_2'))
+
+    # Funkce nastavení výchozích hodnot aplikace po ukončení procesu úpravy.
+    def defaultStatus(self):
+        if self.setThread == 'resize':
+            self.grpSlozka.setEnabled(True)
+            self.edtSlozka.clear()
+            self.lblPocet.setText(self.transGUI('lblPocet'))
+            self.spnVyska.setValue(600)
+            self.spnKvalita.setValue(85)
+            self.edtPrefix.setText('edited')
+            self.grpUprava.setEnabled(False)
+            self.edtWater.setText(self.transGUI('edtWater'))
+            self.grpWater.setChecked(False)
+            self.grpWater.setEnabled(False)
+            self.progress.setValue(0)
+            self.grpStart.setEnabled(False)
+        elif self.setThread == 'copy':
+            self.grpZdroj.setEnabled(True)
+            self.edtZdroj.clear()
+            self.grpCil.setEnabled(False)
+            self.edtCil.clear()
+            self.grpPrenos.setEnabled(False)
+            self.progPrenos.setValue(0)
+
 
 class ResizeTH(QtCore.QThread):
     def __init__(self, parent=None):
@@ -242,6 +245,6 @@ if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()
     myGui = myUI()
-    myGui.setupUi(MainWindow)
+    myGui.createGUI(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

@@ -1,7 +1,7 @@
 <translations active="cs">
     <lang id="cs" pic="cs.png">
         <tabResize>Úprava fotek</tabResize>
-        <tabCopy>Přenos souborů</tabCopy>
+        <tabCopy>Kopírování souborů</tabCopy>
         <tabSetting>Nastavení</tabSetting>
         <grpStart> Proces úpravy fotek</grpStart>
         <btnStart>Start</btnStart>
@@ -57,7 +57,7 @@
         <default>0</default>
         <pic>en.png</pic>
         <tabResize>Photos editing</tabResize>
-        <tabCopy>Files transfer</tabCopy>
+        <tabCopy>Copy files</tabCopy>
         <tabSetting>Settings</tabSetting>
         <grpStart> The process of editing photos</grpStart>
         <btnStart>Start</btnStart>
