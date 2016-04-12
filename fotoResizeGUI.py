@@ -317,7 +317,7 @@ class fotoResizeGUI(QtGui.QWidget):
 
         # Label logu
         self.lblLog = QtGui.QLabel(self.tabCopy)
-        self.lblLog.setGeometry(QtCore.QRect(6, 300, 67, 17))
+        self.lblLog.setGeometry(QtCore.QRect(6, 296, 67, 20))
         self.lblLog.setObjectName("lblLog")
 
         # List logu
@@ -401,14 +401,14 @@ class fotoResizeGUI(QtGui.QWidget):
         self.statusBar = QtGui.QStatusBar(MainWindow)
         self.statusBar.setObjectName("statusBar")
         self.statusBar.setFont(logFont)
-        self.statusBar.showMessage("2015-2016 © Miroslav Suchánek   |   msuchos@gmail.com")
+        self.statusBar.showMessage("2016 © Miroslav Suchánek   |   pyfotoresize.webnode.cz")
         MainWindow.setStatusBar(self.statusBar)
 
         # Přiřazení textů GUI
         self.setTranslations()
 
         MainWindow.setWindowIcon(QtGui.QIcon(':icons/inc/my-icon.png'))
-        MainWindow.setWindowTitle("pyFotoResize v2.0")
+        MainWindow.setWindowTitle("MISU pyFotoResize v2.0")
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     # Funkce změny jazyka GUI
