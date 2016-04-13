@@ -21,6 +21,7 @@ class fotoResizeGUI(QtGui.QWidget):
         # Hlavní okno
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(492, 570)
+        MainWindow.setWindowFlags(QtCore.Qt.WindowCloseButtonHint | QtCore.Qt.WindowMinimizeButtonHint)
         self.centralWidget = QtGui.QWidget(MainWindow)
         self.centralWidget.setObjectName("centralWidget")
 
@@ -69,7 +70,7 @@ class fotoResizeGUI(QtGui.QWidget):
         # GroupBox vodoznaku
         self.grpWater = QtGui.QGroupBox(self.tabResize)
         self.grpWater.setEnabled(False)
-        self.grpWater.setGeometry(QtCore.QRect(3, 270, 471, 65))
+        self.grpWater.setGeometry(QtCore.QRect(3, 270, 469, 65))
         self.grpWater.setCheckable(True)
         self.grpWater.setChecked(False)
         self.grpWater.setObjectName("grpWater")
@@ -131,7 +132,7 @@ class fotoResizeGUI(QtGui.QWidget):
         # GroupBox procesu úprav
         self.grpStart = QtGui.QGroupBox(self.tabResize)
         self.grpStart.setEnabled(False)
-        self.grpStart.setGeometry(QtCore.QRect(3, 344, 471, 71))
+        self.grpStart.setGeometry(QtCore.QRect(3, 344, 469, 71))
         self.grpStart.setObjectName("grpStart")
 
         # Layouty procesu úprav
@@ -226,7 +227,7 @@ class fotoResizeGUI(QtGui.QWidget):
 
         # GroupBox zdrojové složky
         self.grpZdroj = QtGui.QGroupBox(self.tabCopy)
-        self.grpZdroj.setGeometry(QtCore.QRect(4, 10, 469, 91))
+        self.grpZdroj.setGeometry(QtCore.QRect(4, 10, 467, 91))
         self.grpZdroj.setObjectName("grpZdroj")
 
         # Label zdrojové složky
@@ -257,7 +258,7 @@ class fotoResizeGUI(QtGui.QWidget):
 
         # GroupBox cílové složky
         self.grpCil = QtGui.QGroupBox(self.tabCopy)
-        self.grpCil.setGeometry(QtCore.QRect(4, 110, 469, 91))
+        self.grpCil.setGeometry(QtCore.QRect(4, 110, 467, 91))
         self.grpCil.setEnabled(False)
         self.grpCil.setObjectName("grpCil")
 
@@ -290,7 +291,7 @@ class fotoResizeGUI(QtGui.QWidget):
         # GroupBox procesu kopírování
         self.grpPrenos = QtGui.QGroupBox(self.tabCopy)
         self.grpPrenos.setEnabled(False)
-        self.grpPrenos.setGeometry(QtCore.QRect(4, 210, 469, 71))
+        self.grpPrenos.setGeometry(QtCore.QRect(4, 210, 467, 71))
         self.grpPrenos.setObjectName("grpPrenos")
 
         # Layouty procesu kopírování

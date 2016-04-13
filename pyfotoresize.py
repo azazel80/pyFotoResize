@@ -62,6 +62,7 @@ class myUI(fotoResizeGUI):
         self.grpSlozka.setEnabled(False)
         self.grpUprava.setEnabled(False)
         self.grpWater.setEnabled(False)
+        self.btnExit.setEnabled(False)
         self.setThread = 'resize'
 
         self.res_allFiles = self.dbResize[1]
@@ -84,6 +85,7 @@ class myUI(fotoResizeGUI):
         self.btnPrenos.setEnabled(False)
         self.grpZdroj.setEnabled(False)
         self.grpCil.setEnabled(False)
+        self.btnExit.setEnabled(False)
         self.setThread = 'copy'
 
         sourcePath = self.dbSource[0]
@@ -172,6 +174,7 @@ class myUI(fotoResizeGUI):
 
     # Funkce nastavení výchozích hodnot aplikace po ukončení procesu úpravy.
     def defaultStatus(self):
+        self.btnExit.setEnabled(True)
         if self.setThread == 'resize':
             self.grpSlozka.setEnabled(True)
             self.edtSlozka.clear()

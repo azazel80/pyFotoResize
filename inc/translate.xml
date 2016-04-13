@@ -36,7 +36,7 @@
         <lblCil>Vybrat složku:</lblCil>
         <btnCil>Procházet...</btnCil>
         <btnCilTool>Otevře se dialog pro výběr složky</btnCilTool>
-        <grpPrenos> Zahájit přenos </grpPrenos>
+        <grpPrenos> Zahájit import </grpPrenos>
         <btnPrenos>Start</btnPrenos>
         <btnPrenosTool>Spustí přenos souborů</btnPrenosTool>
         <lblLog>Log:</lblLog>
@@ -92,7 +92,7 @@
         <lblCil>Select folder:</lblCil>
         <btnCil>Browse...</btnCil>
         <btnCilTool>Opens a dialog for the folder selection</btnCilTool>
-        <grpPrenos> Start transfer </grpPrenos>
+        <grpPrenos> Start import </grpPrenos>
         <btnPrenos>Start</btnPrenos>
         <btnPrenosTool>Starts transferring files</btnPrenosTool>
         <lblLog>Log:</lblLog>
