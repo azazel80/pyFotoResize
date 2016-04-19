@@ -1,0 +1,6 @@
+{
+  "name": "MISU pyFotoResize",
+  "tagline": "Hromadná úprava velikosti fotografií s možností přidání vodoznaku",
+  "body": "MISU pyFotoResize je **Open-source** aplikace vyvinutá v jazyku **Python 3**, jejíž uživatelské rozhraní (GUI) bylo postaveno na komponentách velmi známého bindingu pro Qt a tím je **PySide**. Díky těmto vlastnostem se řadí nejen do kategorie **multiplatformní**, tedy spustitelné na různých operačních systémech (testováno na platformách Linux a Windows), ale také do kategorie **ZDARMA, volně ke stažení**.<br><br>\r\nMISU pyFotoResize je šířen pod licencí [Creative Commons Uveďte_původ-Zachovejte_licenci 4.0 Mezinárodní](http://creativecommons.org/licenses/by-sa/4.0/deed.cs).<br><br>\r\nVíce informací na [oficiálním webu](http://pyfotoresize.webnode.cz) aplikace.\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
