@@ -2,18 +2,18 @@
 
 import sys, os, xml.etree.ElementTree as etree
 from PySide import QtCore, QtGui
+from translategui_xml import translategui_xml
 
 # Uživatelské prostředí aplikace
 class fotoResizeGUI(QtGui.QWidget):
 
+    applicationPath = None
+    translator = None
+
     # Funkce inicialzace aplikace.
     def __init__(self):
-        self.myPath = sys.path[0]
-        self.transFilePath = os.path.join(self.myPath, 'inc', 'translate.xml')
-        self.langXMLfile = etree.parse(self.transFilePath)
-        if self.langXMLfile != '':
-            self.rootElem = self.langXMLfile.getroot()
-            self.langID = self.rootElem.get('active')
+        self.applicationPath = sys.path[0]
+        self.translator = translategui_xml(os.path.join(self.applicationPath, 'inc', 'translate.xml'))
 
     # Sestavení GUI
     def createGUI(self, MainWindow):
@@ -126,7 +126,7 @@ class fotoResizeGUI(QtGui.QWidget):
         # Tlačítko /Procházet/ složky fotek
         self.btnSlozka = QtGui.QPushButton(self.layoutWidget_2)
         self.btnSlozka.setObjectName("btnSlozka")
-        self.btnSlozka.clicked.connect(lambda  *args: self.openDir('zmena', self.transGUI('lblSlozka')))
+        self.btnSlozka.clicked.connect(lambda  *args: self.openDir('zmena', self.translator.translate('lblSlozka')))
         self.horizontalLayout.addWidget(self.btnSlozka)
 
         # GroupBox procesu úprav
@@ -253,7 +253,7 @@ class fotoResizeGUI(QtGui.QWidget):
         # Tlačítko /Procházet/ zdrojové složky
         self.btnZdroj = QtGui.QPushButton(self.layoutWidget_5)
         self.btnZdroj.setObjectName("btnZdroj")
-        self.btnZdroj.clicked.connect(lambda  *args: self.openDir('zdroj', self.transGUI('lblSlozka')))
+        self.btnZdroj.clicked.connect(lambda  *args: self.openDir('zdroj', self.translator.translate('lblSlozka')))
         self.horizontalLayout_4.addWidget(self.btnZdroj)
 
         # GroupBox cílové složky
@@ -285,7 +285,7 @@ class fotoResizeGUI(QtGui.QWidget):
         # Tlačítko /Procházet/ cílové složky
         self.btnCil = QtGui.QPushButton(self.layoutWidget_6)
         self.btnCil.setObjectName("btnCil")
-        self.btnCil.clicked.connect(lambda  *args: self.openDir('cil', self.transGUI('lblSlozka')))
+        self.btnCil.clicked.connect(lambda  *args: self.openDir('cil', self.translator.translate('lblSlozka')))
         self.horizontalLayout_5.addWidget(self.btnCil)
 
         # GroupBox procesu kopírování
@@ -355,41 +355,15 @@ class fotoResizeGUI(QtGui.QWidget):
 
         # Layouty jazyka GUI
         self.widget = QtGui.QWidget(self.grpSetting)
-        self.widget.setGeometry(QtCore.QRect(30, 40, 40, 60))
+        self.widget.setGeometry(QtCore.QRect(28, 40, 60, 66))
         self.widget.setObjectName("widget")
         self.gridLayout_2 = QtGui.QGridLayout(self.widget)
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setObjectName("gridLayout_2")
 
-        # Label čeština
-        self.lblCzech = QtGui.QLabel(self.widget)
-        self.lblCzech.setText("")
-        self.lblCzech.setPixmap(QtGui.QPixmap(":icons/inc/cz.png"))
-        self.lblCzech.setObjectName("lblCzech")
-        self.gridLayout_2.addWidget(self.lblCzech, 0, 0, 1, 1)
+        # přepínače jazyka (radiobuttony s vlajkou)
+        self.createLangRB([28, 40], [70, 50])
 
-        # RadioButton čeština
-        self.rbCzech = QtGui.QRadioButton(self.widget)
-        if self.langID == 'cs':
-            self.rbCzech.setChecked(True)
-        self.rbCzech.setObjectName("rbCzech")
-        self.rbCzech.clicked.connect(lambda  *args: self.changeLang('cs'))
-        self.gridLayout_2.addWidget(self.rbCzech, 0, 1, 1, 1)
-
-        # Label angličtina
-        self.lblEng = QtGui.QLabel(self.widget)
-        self.lblEng.setText("")
-        self.lblEng.setPixmap(QtGui.QPixmap(":icons/inc/en.png"))
-        self.lblEng.setObjectName("lblEng")
-        self.gridLayout_2.addWidget(self.lblEng, 1, 0, 1, 1)
-
-        # RadioButton angličtina
-        self.rbEng = QtGui.QRadioButton(self.widget)
-        if self.langID == 'en':
-            self.rbEng.setChecked(True)
-        self.rbEng.setObjectName("rbEng")
-        self.rbEng.clicked.connect(lambda  *args: self.changeLang('en'))
-        self.gridLayout_2.addWidget(self.rbEng, 1, 1, 1, 1)
         self.verticalLayout.addWidget(self.grpSetting)
         self.tabWidget.addTab(self.tabSetting, "")
         ######################################################################################
@@ -413,66 +387,82 @@ class fotoResizeGUI(QtGui.QWidget):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     # Funkce změny jazyka GUI
-    def changeLang(self, idL):
-        self.langID = idL
-        self.rootElem.set('active', idL)
-        self.langXMLfile.write(self.transFilePath, encoding='utf-8')
+    def changeLang(self):
+        idL = self.translator.allLangID[self.langRadioGroup.checkedId()][0]
+        self.translator.changeActiveLangID(idL)
         self.setTranslations()
 
-    # Funkce získání překladů GUI z XML
-    def transGUI(self, componentName):
-        allElem = self.langXMLfile.findall('.//lang')
-        for elem in allElem:
-            if elem.get('id') == self.langID:
-                for child in elem:
-                    if child.tag == componentName:
-                        return child.text
+    def createLangRB(self, lblXY=[], rbXY=[]):
+        labelXY = lblXY #[28, 40]
+        radioXY = rbXY #[70, 50]
+        self.langRadioGroup = QtGui.QButtonGroup()
+        self.langRadioGroup.setExclusive(True)
+        for i, language in enumerate(self.translator.allLangID):
+            lblVlajka = QtGui.QLabel(self.widget)
+            lblVlajka.setGeometry(QtCore.QRect(labelXY[0], labelXY[1], 32, 32))
+            lblVlajka.setText('')
+            lblVlajka.setPixmap(QtGui.QPixmap(language[1]))
+            lblVlajka.setObjectName('lbl'+language[0])
+            self.gridLayout_2.addWidget(lblVlajka, i, 0, 1, 1)
+            self.widget.setGeometry(QtCore.QRect(28, 40, 60, labelXY[1]))
+            labelXY[1] += 40
+
+            rbVlajka = QtGui.QRadioButton()
+            if self.translator.activeLangID == language[0]:
+                rbVlajka.setChecked(True)
+            rbVlajka.setGeometry(QtCore.QRect(radioXY[0], radioXY[1], 20, 20))
+            rbVlajka.setObjectName('rb'+language[0])
+            rbVlajka.clicked.connect(self.changeLang)
+            self.langRadioGroup.addButton(rbVlajka, i)
+            self.gridLayout_2.addWidget(rbVlajka, i, 1, 1, 1)
+            radioXY[1] += 40
+
+            self.verticalLayoutWidget.setGeometry(QtCore.QRect(5, 10, 465, labelXY[1]+20))
+
 
     # Funkce nastavení a přiřazení textů a popisků do GUI
     def setTranslations(self):
-        self.grpStart.setTitle(self.transGUI('grpStart'))
-        self.btnStart.setText(self.transGUI('btnStart'))
-        self.btnStart.setToolTip(self.transGUI('btnStartTool'))
-        self.grpSlozka.setTitle(self.transGUI('grpSlozka'))
-        self.lblSlozka.setText(self.transGUI('lblSlozka'))
-        self.lblPocet.setText(self.transGUI('lblPocet'))
-        self.btnSlozka.setText(self.transGUI('btnSlozka'))
-        self.btnSlozka.setToolTip(self.transGUI('btnSlozkaTool'))
-        self.grpUprava.setTitle(self.transGUI('grpUprava'))
-        self.lblPozn.setText(self.transGUI('lblPozn'))
-        self.lblVyska.setText(self.transGUI('lblVyska'))
-        self.lblKvalita.setText(self.transGUI('lblKvalita'))
-        self.lblPrefix.setText(self.transGUI('lblPrefix'))
-        self.edtPrefix.setText(self.transGUI('edtPrefix'))
-        self.btnExit.setText(self.transGUI('btnExit'))
-        self.btnExit.setToolTip(self.transGUI('btnExitTool'))
-        self.lblCC.setText(self.transGUI('lblCC'))
-        self.lblCC.setToolTip(self.transGUI('lblCCTool'))
-        self.lblPy.setText(self.transGUI('lblPy'))
-        self.lblPy.setToolTip(self.transGUI('lblPyTool'))
-        self.lblGit.setText(self.transGUI('lblGit'))
-        self.lblGit.setToolTip(self.transGUI('lblGitTool'))
-        self.grpWater.setTitle(self.transGUI('grpWater'))
-        self.lblWater.setText(self.transGUI('lblWater'))
-        self.edtWater.setText(self.transGUI('edtWater'))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabResize), self.transGUI('tabResize'))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabCopy), self.transGUI('tabCopy'))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabSetting), self.transGUI('tabSetting'))
-        self.grpZdroj.setTitle(self.transGUI('grpZdroj'))
-        self.lblZdroj.setText(self.transGUI('lblZdroj'))
-        self.btnZdroj.setText(self.transGUI('btnZdroj'))
-        self.btnZdroj.setToolTip(self.transGUI('btnZdrojTool'))
-        self.grpCil.setTitle(self.transGUI('grpCil'))
-        self.lblCil.setText(self.transGUI('lblCil'))
-        self.btnCil.setText(self.transGUI('btnCil'))
-        self.btnCil.setToolTip(self.transGUI('btnCilTool'))
-        self.grpPrenos.setTitle(self.transGUI('grpPrenos'))
-        self.btnPrenos.setText(self.transGUI('btnPrenos'))
-        self.btnPrenos.setToolTip(self.transGUI('btnPrenosTool'))
-        self.lblLog.setText(self.transGUI('lblLog'))
-        self.grpSetting.setTitle(self.transGUI('grpSetting'))
-        self.rbCzech.setText(self.transGUI('rbCzech'))
-        self.rbEng.setText(self.transGUI('rbEng'))
+        self.grpStart.setTitle(self.translator.translate('grpStart'))
+        self.btnStart.setText(self.translator.translate('btnStart'))
+        self.btnStart.setToolTip(self.translator.translate('btnStartTool'))
+        self.grpSlozka.setTitle(self.translator.translate('grpSlozka'))
+        self.lblSlozka.setText(self.translator.translate('lblSlozka'))
+        self.lblPocet.setText(self.translator.translate('lblPocet'))
+        self.btnSlozka.setText(self.translator.translate('btnSlozka'))
+        self.btnSlozka.setToolTip(self.translator.translate('btnSlozkaTool'))
+        self.grpUprava.setTitle(self.translator.translate('grpUprava'))
+        self.lblPozn.setText(self.translator.translate('lblPozn'))
+        self.lblVyska.setText(self.translator.translate('lblVyska'))
+        self.lblKvalita.setText(self.translator.translate('lblKvalita'))
+        self.lblPrefix.setText(self.translator.translate('lblPrefix'))
+        self.edtPrefix.setText(self.translator.translate('edtPrefix'))
+        self.btnExit.setText(self.translator.translate('btnExit'))
+        self.btnExit.setToolTip(self.translator.translate('btnExitTool'))
+        self.lblCC.setText(self.translator.translate('lblCC'))
+        self.lblCC.setToolTip(self.translator.translate('lblCCTool'))
+        self.lblPy.setText(self.translator.translate('lblPy'))
+        self.lblPy.setToolTip(self.translator.translate('lblPyTool'))
+        self.lblGit.setText(self.translator.translate('lblGit'))
+        self.lblGit.setToolTip(self.translator.translate('lblGitTool'))
+        self.grpWater.setTitle(self.translator.translate('grpWater'))
+        self.lblWater.setText(self.translator.translate('lblWater'))
+        self.edtWater.setText(self.translator.translate('edtWater'))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabResize), self.translator.translate('tabResize'))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabCopy), self.translator.translate('tabCopy'))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabSetting), self.translator.translate('tabSetting'))
+        self.grpZdroj.setTitle(self.translator.translate('grpZdroj'))
+        self.lblZdroj.setText(self.translator.translate('lblZdroj'))
+        self.btnZdroj.setText(self.translator.translate('btnZdroj'))
+        self.btnZdroj.setToolTip(self.translator.translate('btnZdrojTool'))
+        self.grpCil.setTitle(self.translator.translate('grpCil'))
+        self.lblCil.setText(self.translator.translate('lblCil'))
+        self.btnCil.setText(self.translator.translate('btnCil'))
+        self.btnCil.setToolTip(self.translator.translate('btnCilTool'))
+        self.grpPrenos.setTitle(self.translator.translate('grpPrenos'))
+        self.btnPrenos.setText(self.translator.translate('btnPrenos'))
+        self.btnPrenos.setToolTip(self.translator.translate('btnPrenosTool'))
+        self.lblLog.setText(self.translator.translate('lblLog'))
+        self.grpSetting.setTitle(self.translator.translate('grpSetting'))
 
     def openDir(self):
         pass

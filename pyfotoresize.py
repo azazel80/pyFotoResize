@@ -8,8 +8,8 @@ Aplikace na hromadnou změnu velikosti fotek s možností přidání vodoznaku.
 
 import sys, os, shutil, datetime
 from PySide import QtGui, QtCore
-from fotoResizeGUI import fotoResizeGUI
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance
+from fotoResizeGUI import fotoResizeGUI
 
 __author__ = 'Miroslav Suchánek'
 
@@ -38,7 +38,7 @@ class myUI(fotoResizeGUI):
                     self.dbResize.insert(2, str(len(images)))
 
                     self.edtSlozka.setText(dirname)
-                    self.lblPocet.setText(self.transGUI('lblPocet')+"%s" % self.dbResize[2])
+                    self.lblPocet.setText(self.translator.translate('lblPocet')+"%s" % self.dbResize[2])
                     self.grpUprava.setEnabled(True)
                     self.grpWater.setEnabled(True)
                     self.grpStart.setEnabled(True)
@@ -53,7 +53,7 @@ class myUI(fotoResizeGUI):
                     self.edtZdroj.setText(dirname)
                     self.grpCil.setEnabled(True)
                     self.lstLog.clear()
-                    self.setItemToList(self.transGUI('copyLog_0')+' %s' % self.dbSource[2], QtCore.Qt.blue)
+                    self.setItemToList(self.translator.translate('copyLog_0')+' %s' % self.dbSource[2], QtCore.Qt.blue)
 
     # Funkce stisknutí tlačítka /Start/ pro spuštění procesu úpravy.
     def resizeImg(self):
@@ -65,19 +65,14 @@ class myUI(fotoResizeGUI):
         self.btnExit.setEnabled(False)
         self.setThread = 'resize'
 
-        self.res_allFiles = self.dbResize[1]
-        self. res_nHeight = self.spnVyska.value()
+        self.res_nHeight = self.spnVyska.value()
         self.res_quality = self.spnKvalita.value()
-        self.res_prefix = self.edtPrefix.text()+'_'
-        self.res_nDirPath = os.path.join(self.dbResize[0], self.res_prefix)
+        self.res_prefix = self.edtPrefix.text()
         self.res_addW = self.grpWater.isChecked()
         self.res_textW = self.edtWater.text()
 
-        if not os.path.exists(self.res_nDirPath):
-            os.mkdir(self.res_nDirPath)
-
-        rThread = ResizeTH()
-        rThread.run()
+        edt = EditImage(self.dbResize)
+        edt.resizeFoto(self.res_nHeight, self.res_prefix, self.res_quality, self.res_addW, self.res_textW)
 
     # Funkce stisknutí tlačítka /Start/ pro spuštění kopírování souborů.
     def copyImg(self):
@@ -108,33 +103,6 @@ class myUI(fotoResizeGUI):
                     cThread = CopyTH(os.path.join(sourcePath, cFile), os.path.join(targetPath, newFilename), cFile)
                     cThread.run()
 
-    # Funkce vytvoření a přidání vodoznaku
-    def addWatermark(self, in_file, out_file, text, quality, angle=23, opacity=0.25):
-
-        FONT = os.path.join(self.myPath, 'inc', 'DVS-Bold.ttf')
-
-        img = Image.open(in_file).convert('RGB')
-        watermark = Image.new('RGBA', img.size, (0,0,0,0))
-        size = 2
-        n_font = ImageFont.truetype(FONT, size)
-        n_width, n_height = n_font.getsize(text)
-
-        while n_width+n_height < watermark.size[0]:
-            size += 2
-            n_font = ImageFont.truetype(FONT, size)
-            n_width, n_height = n_font.getsize(text)
-
-        draw = ImageDraw.Draw(watermark, 'RGBA')
-        draw.text(((watermark.size[0] - n_width) / 2,
-              (watermark.size[1] - n_height) / 2),
-              text, font=n_font)
-
-        watermark = watermark.rotate(angle, Image.BICUBIC)
-        alpha = watermark.split()[3]
-        alpha = ImageEnhance.Brightness(alpha).enhance(opacity)
-        watermark.putalpha(alpha)
-        Image.composite(watermark, img, watermark).save(out_file, 'jpeg', quality=quality)
-
     # Funkce vytvoření a přidání informace do logu
     def setItemToList(self, text, color):
         item = QtGui.QListWidgetItem(text)
@@ -162,15 +130,15 @@ class myUI(fotoResizeGUI):
                 if self.grpWater.isChecked():
                     os.remove(self.tmp)
                 self.defaultStatus()
-                self.getInfo(self.transGUI('finishTitle_1'), self.transGUI('finishInfo_1'))
+                self.getInfo(self.translator.translate('finishTitle_1'), self.translator.translate('finishInfo_1'))
         elif self.setThread == 'copy':
             if int(self.dbSource[2]) == self.progPrenos.value():
-                self.setItemToList(self.transGUI('copyLog_2'), QtCore.Qt.black)
+                self.setItemToList(self.translator.translate('copyLog_2'), QtCore.Qt.black)
                 self.defaultStatus()
                 if self.error:
-                    self.getInfo(self.transGUI('finishTitle_2'), self.transGUI('finishInfo_3'))
+                    self.getInfo(self.translator.translate('finishTitle_2'), self.translator.translate('finishInfo_3'))
                 else:
-                    self.getInfo(self.transGUI('finishTitle_1'), self.transGUI('finishInfo_2'))
+                    self.getInfo(self.translator.translate('finishTitle_1'), self.translator.translate('finishInfo_2'))
 
     # Funkce nastavení výchozích hodnot aplikace po ukončení procesu úpravy.
     def defaultStatus(self):
@@ -178,12 +146,12 @@ class myUI(fotoResizeGUI):
         if self.setThread == 'resize':
             self.grpSlozka.setEnabled(True)
             self.edtSlozka.clear()
-            self.lblPocet.setText(self.transGUI('lblPocet'))
+            self.lblPocet.setText(self.translator.translate('lblPocet'))
             self.spnVyska.setValue(600)
             self.spnKvalita.setValue(85)
             self.edtPrefix.setText('edited')
             self.grpUprava.setEnabled(False)
-            self.edtWater.setText(self.transGUI('edtWater'))
+            self.edtWater.setText(self.translator.translate('edtWater'))
             self.grpWater.setChecked(False)
             self.grpWater.setEnabled(False)
             self.progress.setValue(0)
@@ -196,27 +164,103 @@ class myUI(fotoResizeGUI):
             self.grpPrenos.setEnabled(False)
             self.progPrenos.setValue(0)
 
+class EditImage:
 
-class ResizeTH(QtCore.QThread):
-    def __init__(self, parent=None):
-        super(ResizeTH, self).__init__(parent)
-        self.ui = myGui
+    dataFiles = None # 1 = dirPath, 2 = list_of_Files, 3 = number_of_files
 
-    def run(self):
-       for resizeFile in self.ui.res_allFiles:
-            infile = os.path.join(self.ui.dbResize[0], resizeFile)
-            outfile = os.path.join(self.ui.res_nDirPath, self.ui.res_prefix+resizeFile)
-            self.ui.tmp = os.path.join(self.ui.res_nDirPath, '.tmpImg')
-            rFile = Image.open(infile)
-            width, height = rFile.size
-            pomer = round(height / self.ui.res_nHeight, 2)
-            nWidth = round(width / pomer)
-            if self.ui.res_addW:
-                rFile.resize((nWidth, self.ui.res_nHeight), Image.ANTIALIAS).save(self.ui.tmp, 'jpeg', quality=self.ui.res_quality)
-                self.ui.addWatermark(self.ui.tmp, outfile, self.ui.res_textW, self.ui.res_quality)
+    def __init__(self, data_of_Files):
+        self.dataFiles = data_of_Files
+
+    def getNewSize(self, origSize, newHeight):
+        origWidth, origHeight = origSize
+        ratio = round(origHeight / newHeight, 2)
+        newWidth = round(origWidth / ratio)
+        newSize = [newWidth, newHeight]
+        return newSize
+
+    def createNewFoto(self, newPathsDB, newCreateDB):
+        # newPathsDB = [newDirPath, newFileName, tmpFileName]
+        # newCreateDB = [newHeight, savePrefix, qualily_img, watermark, wtmText]
+        for resizeFile in self.dataFiles[1]:
+            inFile = os.path.join(self.dataFiles[0], resizeFile)
+            outFile = newPathsDB[1] + resizeFile
+            origFoto = Image.open(inFile)
+            if newCreateDB[3]:
+                origFoto.resize(self.getNewSize(origFoto.size, newCreateDB[0]), Image.ANTIALIAS).save(newPathsDB[2], 'jpeg', quality=newCreateDB[2])
+                fontPath = os.path.join(sys.path[0], 'inc', 'wtm_font.ttf')
+                self.addWatermark(newPathsDB[2], outFile, newCreateDB[4], fontPath, newCreateDB[2])
             else:
-                rFile.resize((nWidth, self.ui.res_nHeight), Image.ANTIALIAS).save(outfile, 'jpeg', quality=self.ui.res_quality)
-            self.ui.progresUpdate()
+                origFoto.resize(self.getNewSize(origFoto.size, newCreateDB[0]), Image.ANTIALIAS).save(outFile, 'jpeg', quality=newCreateDB[2])
+            myGui.progresUpdate()
+
+    def resizeFoto(self, newHeight, savePrefix='resized', qualily_img=85, watermark=False, wtmText=None):
+
+        newDirPath = os.path.join(self.dataFiles[0], savePrefix)
+        newFileName = os.path.join(newDirPath, savePrefix+'_')
+        tmpFileName = os.path.join(newDirPath, '.tmp_image')
+        myUI.tmp = tmpFileName
+
+        pathsData = [newDirPath, newFileName, tmpFileName]
+        createData = [newHeight, savePrefix, qualily_img, watermark, wtmText]
+
+        if not os.path.exists(newDirPath):
+            os.mkdir(newDirPath)
+
+        self.createNewFoto(pathsData, createData)
+
+    def getPosition(self, imgSize, wtmSize, idp):
+        # 0 = fullscreen, 1 = left-top, 2 = left-bottom, 3 = right-top, 4 = right-bottom
+        left_pos, top_pos = [0, 0]
+        if idp == 0:
+            left_pos = (imgSize[0] - wtmSize[0]) / 2
+            top_pos = (imgSize[1] - wtmSize[1]) / 2
+        elif idp == 1:
+            left_pos = wtmSize[0] / 4
+            top_pos = wtmSize[0] / 4
+        elif idp == 2:
+            left_pos = wtmSize[0] / 4
+            top_pos = imgSize[1] - (wtmSize[1] + (wtmSize[0] / 4))
+        elif idp == 3:
+            left_pos = imgSize[0] - (wtmSize[0] + (wtmSize[0] / 4))
+            top_pos = wtmSize[0] / 4
+        elif idp == 4:
+            left_pos = imgSize[0] - (wtmSize[0] + (wtmSize[0] / 4))
+            top_pos = imgSize[1] - (wtmSize[1] + (wtmSize[0] / 4))
+        position = [left_pos, top_pos]
+        return position
+
+    def addWatermark(self, inFile, outFile, textWatermark, font_file, qualityImg, wtm_type='fullscreen', angle=26, opacity=0.25):
+
+        original_img = Image.open(inFile).convert('RGB')
+        empty_img = Image.new('RGBA', original_img.size, (0,0,0,0))
+
+        font_size = 2
+        wtm_text = ImageFont.truetype(font_file, font_size)
+        wtm_width, wtm_height = wtm_text.getsize(textWatermark)
+
+        if wtm_type == 'fullscreen':
+            idp = 0
+            while wtm_width + wtm_height < empty_img.size[0]:
+                font_size += 2
+                wtm_text = ImageFont.truetype(font_file, font_size)
+                wtm_width, wtm_height = wtm_text.getsize(textWatermark)
+        elif wtm_type == 'stamp':
+            idp = 4
+            while wtm_width + wtm_height < empty_img.size[0] / 5:
+                font_size += 2
+                wtm_text = ImageFont.truetype(font_file, font_size)
+                wtm_width, wtm_height = wtm_text.getsize(textWatermark)
+
+        wtm_size = [wtm_width, wtm_height]
+
+        wtm_draw = ImageDraw.Draw(empty_img, 'RGBA')
+        wtm_draw.text(self.getPosition(empty_img.size, wtm_size, idp), textWatermark, font=wtm_text)
+
+        empty_img = empty_img.rotate(angle, Image.BICUBIC)
+        alpha = empty_img.split()[3]
+        alpha = ImageEnhance.Brightness(alpha).enhance(opacity)
+        empty_img.putalpha(alpha)
+        Image.composite(empty_img, original_img, empty_img).save(outFile, 'jpeg', quality=qualityImg)
 
 class CopyTH(QtCore.QThread):
     def __init__(self, infile, outfile, file, parent=None):
@@ -232,12 +276,12 @@ class CopyTH(QtCore.QThread):
         # je-li zdroj a cíl stejný
         except shutil.Error as e:
             self.ui.lstLog.takeItem(0)
-            self.ui.setItemToList(self.ui.transGUI('copyLog_3')+' %s' % e, QtCore.Qt.red)
+            self.ui.setItemToList(self.ui.translator.translate('copyLog_3')+' %s' % e, QtCore.Qt.red)
             self.ui.error = True
         # pokud zdroj nebo cíl neexistuje
         except IOError as e:
             self.ui.lstLog.takeItem(0)
-            self.ui.setItemToList(self.ui.transGUI('copyLog_3')+' -- %s -- %s' % (self.file, e.strerror), QtCore.Qt.red)
+            self.ui.setItemToList(self.ui.translator.translate('copyLog_3')+' -- %s -- %s' % (self.file, e.strerror), QtCore.Qt.red)
             self.ui.error = True
         finally:
             self.ui.progresUpdate()
